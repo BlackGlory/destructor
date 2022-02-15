@@ -9,7 +9,7 @@
   ],
   "main": "lib/es2018/index.js",
   "types": "lib/es2018/index.d.ts",
-  "repository": "git@github.com:BlackGlory/log.git",
+  "repository": "git@github.com:BlackGlory/destructor.git",
   "author": "BlackGlory <woshenmedoubuzhidao@blackglory.me>",
   "license": "MIT",
   "scripts": {
@@ -32,7 +32,7 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "run-s lint build",
+      "pre-commit": "run-s lint build test",
       "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
     }
   },
