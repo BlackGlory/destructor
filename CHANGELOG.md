@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.2.0](https://github.com/BlackGlory/extra-defer/compare/v0.1.1...v0.2.0) (2022-02-21)
+
+
+### Features
+
+* add Constructor ([1ddef82](https://github.com/BlackGlory/extra-defer/commit/1ddef822b7aa12bce3108aec40c1fb7134faac6d))
+
 ### [0.1.1](https://github.com/BlackGlory/destructor/compare/v0.1.0...v0.1.1) (2022-02-15)
 
 ## 0.1.0 (2022-02-15)
