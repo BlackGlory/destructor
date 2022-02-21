@@ -1,14 +1,14 @@
-# destructor
+# extra-defer
 ## Install
 ```sh
-npm install --save @blackglory/destructor
+npm install --save extra-defer
 # or
-yarn add @blackglory/destructor
+yarn add extra-defer
 ```
 
 ## Usage
 ```ts
-import { Destructor, withDestructor } from '@blackglory/destructor'
+import { Destructor } from 'extra-defer'
 
 const d = new Destructor()
 try {
@@ -33,3 +33,20 @@ class Destructor {
   allSettled(concurrency: number = Infinity): Promise<void>
 }
 ```
+
+Callbacks are executed in reverse order of `defer`.
+
+### Constructor
+```ts
+class Constructor {
+  defer(callback: () => void | PromiseLike<void>): void
+
+  execute(): Promise<void>
+  executeSettled(): Promise<void>
+
+  all(concurrency: number = Infinity): Promise<void>
+  allSettled(concurrency: number = Infinity): Promise<void>
+}
+```
+
+Callbacks are executed in same order of `defer`.
