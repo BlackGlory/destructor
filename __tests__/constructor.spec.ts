@@ -5,6 +5,18 @@ import { getErrorPromise } from 'return-style'
 const TIME_ERROR = 1
 
 describe('Constructor', () => {
+  test('remove', async () => {
+    const executor = new Constructor()
+    const callback = jest.fn()
+    executor.defer(callback)
+    executor.defer(callback)
+
+    executor.remove(callback)
+    await executor.execute()
+
+    expect(callback).not.toBeCalled()
+  })
+
   describe('execute', () => {
     test('no error', async () => {
       let timestamp1: number

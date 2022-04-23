@@ -6,6 +6,10 @@ export abstract class Executor {
 
   abstract defer(callback: () => unknown | PromiseLike<unknown>): void
 
+  remove(callback: () => unknown | PromiseLike<unknown>): void {
+    this.callbacks = this.callbacks.filter(x => x !== callback)
+  }
+
   async execute(): Promise<void> {
     await this.all(1)
   }
