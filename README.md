@@ -24,8 +24,8 @@ try {
 ### Destructor
 ```ts
 class Destructor {
-  defer(callback: () => void | PromiseLike<void>): void
-  remove(callback: () => unknown | PromiseLike<unknown>): void
+  defer(callback: () => Awaitable<unknown>): void
+  remove(callback: () => Awaitable<unknown>): void
 
   execute(): Promise<void>
   executeSettled(): Promise<void>
@@ -40,8 +40,8 @@ Callbacks are executed in reverse order of `defer`.
 ### Constructor
 ```ts
 class Constructor {
-  defer(callback: () => void | PromiseLike<void>): void
-  remove(callback: () => unknown | PromiseLike<unknown>): void
+  defer(callback: () => Awaitable<unknown>): void
+  remove(callback: () => Awaitable<unknown>): void
 
   execute(): Promise<void>
   executeSettled(): Promise<void>

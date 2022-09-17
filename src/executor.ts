@@ -1,12 +1,13 @@
 import { pass } from '@blackglory/pass'
 import { each } from 'extra-promise'
+import { Awaitable } from 'justypes'
 
 export abstract class Executor {
-  protected callbacks: Array<() => unknown | PromiseLike<unknown>> = []
+  protected callbacks: Array<() => Awaitable<unknown>> = []
 
-  abstract defer(callback: () => unknown | PromiseLike<unknown>): void
+  abstract defer(callback: () => Awaitable<unknown>): void
 
-  remove(callback: () => unknown | PromiseLike<unknown>): void {
+  remove(callback: () => Awaitable<unknown>): void {
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }
 

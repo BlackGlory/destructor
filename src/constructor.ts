@@ -1,7 +1,8 @@
 import { Executor } from './executor'
+import { Awaitable } from 'justypes'
 
 export class Constructor extends Executor {
-  defer(callback: () => unknown | PromiseLike<unknown>): void {
+  defer(callback: () => Awaitable<unknown>): void {
     this.callbacks.push(callback)
   }
 }
