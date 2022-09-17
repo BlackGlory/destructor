@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.5](https://github.com/BlackGlory/extra-defer/compare/v0.2.4...v0.2.5) (2022-09-17)
+
+
+### Features
+
+* add SyncConstructor, SyncDestructor ([ed0abb5](https://github.com/BlackGlory/extra-defer/commit/ed0abb50e10463cf226f0175f8f94376bd8543b0))
+
 ### [0.2.4](https://github.com/BlackGlory/extra-defer/compare/v0.2.3...v0.2.4) (2022-08-06)
 
 ### [0.2.3](https://github.com/BlackGlory/extra-defer/compare/v0.2.2...v0.2.3) (2022-08-01)
