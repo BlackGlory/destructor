@@ -21,6 +21,22 @@ try {
 ```
 
 ## API
+### Constructor
+```ts
+class Constructor {
+  defer(callback: () => Awaitable<unknown>): void
+  remove(callback: () => Awaitable<unknown>): void
+
+  execute(): Promise<void>
+  executeSettled(): Promise<void>
+
+  all(concurrency: number = Infinity): Promise<void>
+  allSettled(concurrency: number = Infinity): Promise<void>
+}
+```
+
+Callbacks are executed in same order of `defer`.
+
 ### Destructor
 ```ts
 class Destructor {
@@ -37,18 +53,28 @@ class Destructor {
 
 Callbacks are executed in reverse order of `defer`.
 
-### Constructor
+### SyncConstructor
 ```ts
-class Constructor {
-  defer(callback: () => Awaitable<unknown>): void
-  remove(callback: () => Awaitable<unknown>): void
+class SyncConstructor {
+  defer(callback: () => unknown): void
+  remove(callback: () => unknown): void
 
-  execute(): Promise<void>
-  executeSettled(): Promise<void>
-
-  all(concurrency: number = Infinity): Promise<void>
-  allSettled(concurrency: number = Infinity): Promise<void>
+  execute(): void
+  executeSettled(): void
 }
 ```
 
 Callbacks are executed in same order of `defer`.
+
+### SyncDestructor
+```ts
+class SyncDestructor {
+  defer(callback: () => unknown): void
+  remove(callback: () => unknown): void
+
+  execute(): void
+  executeSettled(): void
+}
+```
+
+Callbacks are executed in reverse order of `defer`.
