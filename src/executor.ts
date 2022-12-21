@@ -7,6 +7,10 @@ export abstract class Executor {
 
   abstract defer(callback: () => Awaitable<unknown>): void
 
+  get size() {
+    return this.callbacks.length
+  }
+
   remove(callback: () => Awaitable<unknown>): void {
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }

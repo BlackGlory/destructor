@@ -5,6 +5,10 @@ export abstract class SyncExecutor {
 
   abstract defer(callback: () => unknown): void
 
+  get size() {
+    return this.callbacks.length
+  }
+
   remove(callback: () => unknown): void {
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }

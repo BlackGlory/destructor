@@ -24,6 +24,8 @@ try {
 ### Constructor
 ```ts
 class Constructor {
+  get size(): number
+
   defer(callback: () => Awaitable<unknown>): void
   remove(callback: () => Awaitable<unknown>): void
 
@@ -40,6 +42,8 @@ Callbacks are executed in same order of `defer`.
 ### Destructor
 ```ts
 class Destructor {
+  get size(): number
+
   defer(callback: () => Awaitable<unknown>): void
   remove(callback: () => Awaitable<unknown>): void
 
@@ -56,6 +60,8 @@ Callbacks are executed in reverse order of `defer`.
 ### SyncConstructor
 ```ts
 class SyncConstructor {
+  get size(): number
+
   defer(callback: () => unknown): void
   remove(callback: () => unknown): void
 
@@ -69,6 +75,8 @@ Callbacks are executed in same order of `defer`.
 ### SyncDestructor
 ```ts
 class SyncDestructor {
+  get size(): number
+
   defer(callback: () => unknown): void
   remove(callback: () => unknown): void
 

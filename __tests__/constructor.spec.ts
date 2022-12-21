@@ -5,6 +5,28 @@ import { getErrorPromise } from 'return-style'
 const TIME_ERROR = 1
 
 describe('Constructor', () => {
+  test('size', () => {
+    const executor = new Constructor()
+    const fn1 = jest.fn()
+    const fn2 = jest.fn()
+
+    const size1 = executor.size
+    executor.defer(fn1)
+    const size2 = executor.size
+    executor.defer(fn1)
+    const size3 = executor.size
+    executor.defer(fn2)
+    const size4 = executor.size
+    executor.remove(fn1)
+    const size5 = executor.size
+
+    expect(size1).toBe(0)
+    expect(size2).toBe(1)
+    expect(size3).toBe(2)
+    expect(size4).toBe(3)
+    expect(size5).toBe(1)
+  })
+
   test('remove', async () => {
     const executor = new Constructor()
     const callback = jest.fn()
