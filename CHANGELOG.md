@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.6](https://github.com/BlackGlory/extra-defer/compare/v0.2.5...v0.2.6) (2022-12-21)
+
+
+### Features
+
+* add getter `size` ([080002d](https://github.com/BlackGlory/extra-defer/commit/080002df817988871f73ebdd775cda808ce288e6))
+
 ### [0.2.5](https://github.com/BlackGlory/extra-defer/compare/v0.2.4...v0.2.5) (2022-09-17)
 
 
