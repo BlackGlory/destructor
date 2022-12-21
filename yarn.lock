@@ -591,6 +591,21 @@
     iterable-operator "^2.5.0"
     justypes "^3.1.2"
 
+"@blackglory/prelude@^0.2.0":
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/@blackglory/prelude/-/prelude-0.2.0.tgz#5138e7eab0474af4c0ef77739a26a2b8c2dcd3ff"
+  integrity sha512-goYVqMK3rU299sld3PM58Gik8Ly1f0k0PwTXjPNX598q/21yQHvhP9SO6PwZqiI4aaEd1loPyqfUBk8WotDidw==
+  dependencies:
+    "@blackglory/errors" "^2.4.1"
+    "@blackglory/go" "^1.1.2"
+    "@blackglory/log" "^1.3.3"
+    "@blackglory/pass" "^1.1.0"
+    extra-lazy "^1.3.1"
+    extra-promise "^4.4.0"
+    extra-utils "^4.0.0"
+    iterable-operator "^2.5.0"
+    justypes "^4.0.0"
+
 "@blackglory/structures@^0.11.4":
   version "0.11.6"
   resolved "https://registry.yarnpkg.com/@blackglory/structures/-/structures-0.11.6.tgz#a679493d20e3ed036fc72a67b52fef05c75ef301"
@@ -2731,6 +2746,14 @@ extra-utils@^3.3.0, extra-utils@^3.4.0, extra-utils@^3.5.1, extra-utils@^3.7.0:
   integrity sha512-oknUj+tiacZHlvuTKhjmXCDXCaB8xzOlJMNVAH2211N1OVsXty09QhI+884oCmZaALIiyXAio1itDWmPfv9T4A==
   dependencies:
     justypes "^3.1.2"
+    lodash "^4.17.21"
+
+extra-utils@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/extra-utils/-/extra-utils-4.0.0.tgz#97cb38f3d28c9b9b94c01e37eb448cd09d55a6d1"
+  integrity sha512-tww4VSzqWz7O2+yTL+nPIUHFTIcYfgkkDzxj3YWZZbfMe2ERWF6mi2QsmiEgDt9AHmWZrao+fuZJFK27pEBcoA==
+  dependencies:
+    justypes "^4.0.0"
     lodash "^4.17.21"
 
 fast-deep-equal@^3.1.1, fast-deep-equal@^3.1.3:

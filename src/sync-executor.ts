@@ -1,4 +1,4 @@
-import { pass } from '@blackglory/pass'
+import { pass } from '@blackglory/prelude'
 
 export abstract class SyncExecutor {
   protected callbacks: Array<() => unknown> = []

@@ -1,6 +1,5 @@
-import { pass } from '@blackglory/pass'
 import { each } from 'extra-promise'
-import { Awaitable } from 'justypes'
+import { pass, Awaitable } from '@blackglory/prelude'
 
 export abstract class Executor {
   protected callbacks: Array<() => Awaitable<unknown>> = []

@@ -1,5 +1,5 @@
 import { Executor } from './executor'
-import { Awaitable } from 'justypes'
+import { Awaitable } from '@blackglory/prelude'
 
 export class Destructor extends Executor {
   defer(callback: () => Awaitable<unknown>): void {
