@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.8](https://github.com/BlackGlory/extra-defer/compare/v0.2.7...v0.2.8) (2023-06-10)
+
+
+### Bug Fixes
+
+* export src ([8e7a8f6](https://github.com/BlackGlory/extra-defer/commit/8e7a8f645046876cdc05a2cbc6ceed4c4b03ce34))
+
 ### [0.2.7](https://github.com/BlackGlory/extra-defer/compare/v0.2.6...v0.2.7) (2022-12-21)
 
 ### [0.2.6](https://github.com/BlackGlory/extra-defer/compare/v0.2.5...v0.2.6) (2022-12-21)
