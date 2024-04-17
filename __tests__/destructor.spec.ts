@@ -1,4 +1,5 @@
-import { Destructor } from '@src/destructor'
+import { describe, test, expect, vi } from 'vitest'
+import { Destructor } from '@src/destructor.js'
 import { delay } from 'extra-promise'
 import { getErrorPromise } from 'return-style'
 
@@ -7,8 +8,8 @@ const TIME_ERROR = 1
 describe('Destructor', () => {
   test('size', () => {
     const executor = new Destructor()
-    const fn1 = jest.fn()
-    const fn2 = jest.fn()
+    const fn1 = vi.fn()
+    const fn2 = vi.fn()
 
     const size1 = executor.size
     executor.defer(fn1)
@@ -29,7 +30,7 @@ describe('Destructor', () => {
 
   test('remove', async () => {
     const executor = new Destructor()
-    const callback = jest.fn()
+    const callback = vi.fn()
     executor.defer(callback)
     executor.defer(callback)
 
@@ -43,10 +44,10 @@ describe('Destructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
@@ -65,8 +66,8 @@ describe('Destructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn()
-      const fn2 = jest.fn().mockRejectedValue(customError)
+      const fn1 = vi.fn()
+      const fn2 = vi.fn().mockRejectedValue(customError)
       const destructor = new Destructor()
 
       destructor.defer(fn1) // second run
@@ -85,10 +86,10 @@ describe('Destructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
@@ -107,8 +108,8 @@ describe('Destructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn()
-      const fn2 = jest.fn().mockRejectedValue(customError)
+      const fn1 = vi.fn()
+      const fn2 = vi.fn().mockRejectedValue(customError)
       const destructor = new Destructor()
 
       destructor.defer(fn1) // second run
@@ -126,10 +127,10 @@ describe('Destructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
@@ -148,8 +149,8 @@ describe('Destructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn()
-      const fn2 = jest.fn().mockRejectedValue(customError)
+      const fn1 = vi.fn()
+      const fn2 = vi.fn().mockRejectedValue(customError)
       const destructor = new Destructor()
 
       destructor.defer(fn1) // second run
@@ -168,10 +169,10 @@ describe('Destructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
@@ -190,8 +191,8 @@ describe('Destructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn()
-      const fn2 = jest.fn().mockRejectedValue(customError)
+      const fn1 = vi.fn()
+      const fn2 = vi.fn().mockRejectedValue(customError)
       const destructor = new Destructor()
 
       destructor.defer(fn1) // second run

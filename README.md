@@ -86,3 +86,81 @@ class SyncDestructor {
 ```
 
 Callbacks are executed in reverse order of `defer`.
+
+### GeneratorConstructor
+```ts
+type ICallback<Yield, Next> = () =>
+| void
+| Generator<Yield, void, Next>
+
+class GeneratorConstructor<Yield = unknown, Next = unknown> extends GeneratorExecutor<Yield, Next> {
+  get size(): number
+
+  defer(callback: ICallback<Yield, Next>): void
+  remove(callback: ICallback<Yield, Next>): void
+
+  execute(): Generator<Yield, void, Next>
+  executeSettled(): Generator<Yield, void, Next>
+}
+```
+
+Callbacks are executed in same order of `defer`.
+
+### GeneratorDestructor
+```ts
+type ICallback<Yield, Next> = () =>
+| void
+| Generator<Yield, void, Next>
+
+class GeneratorDestructor<Yield = unknown, Next = unknown> extends GeneratorExecutor<Yield, Next> {
+  get size(): number
+
+  defer(callback: ICallback<Yield, Next>): void
+  remove(callback: ICallback<Yield, Next>): void
+
+  execute(): Generator<Yield, void, Next>
+  executeSettled(): Generator<Yield, void, Next>
+}
+```
+
+Callbacks are executed in reverse order of `defer`.
+
+### AsyncGeneratorConstructor
+```ts
+type ICallback<Yield, Next> = () =>
+| void
+| Generator<Yield, void, Next>
+| AsyncGenerator<Yield, void, Next>
+
+class AsyncGeneratorConstructor<Yield = unknown, Next = unknown> extends AsyncGeneratorExecutor<Yield, Next> {
+  get size(): number
+
+  defer(callback: ICallback<Yield, Next>): void
+  remove(callback: ICallback<Yield, Next>): void
+
+  execute(): AsyncGenerator<Yield, void, Next>
+  executeSettled(): AsyncGenerator<Yield, void, Next>
+}
+```
+
+Callbacks are executed in same order of `defer`.
+
+### AsyncGeneratorDestructor
+```ts
+type ICallback<Yield, Next> = () =>
+| void
+| Generator<Yield, void, Next>
+| AsyncGenerator<Yield, void, Next>
+
+class AsyncGeneratorDestructor<Yield = unknown, Next = unknown> extends AsyncGeneratorExecutor<Yield, Next> {
+  get size(): number
+
+  defer(callback: ICallback<Yield, Next>): void
+  remove(callback: ICallback<Yield, Next>): void
+
+  execute(): AsyncGenerator<Yield, void, Next>
+  executeSettled(): AsyncGenerator<Yield, void, Next>
+}
+```
+
+Callbacks are executed in reverse order of `defer`.

@@ -1,4 +1,5 @@
-import { Constructor } from '@src/constructor'
+import { describe, test, expect, vi } from 'vitest'
+import { Constructor } from '@src/constructor.js'
 import { delay } from 'extra-promise'
 import { getErrorPromise } from 'return-style'
 
@@ -7,8 +8,8 @@ const TIME_ERROR = 1
 describe('Constructor', () => {
   test('size', () => {
     const executor = new Constructor()
-    const fn1 = jest.fn()
-    const fn2 = jest.fn()
+    const fn1 = vi.fn()
+    const fn2 = vi.fn()
 
     const size1 = executor.size
     executor.defer(fn1)
@@ -29,7 +30,7 @@ describe('Constructor', () => {
 
   test('remove', async () => {
     const executor = new Constructor()
-    const callback = jest.fn()
+    const callback = vi.fn()
     executor.defer(callback)
     executor.defer(callback)
 
@@ -43,11 +44,11 @@ describe('Constructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
         await delay(1000)
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
       })
       const destructor = new Constructor()
@@ -65,8 +66,8 @@ describe('Constructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn().mockRejectedValue(customError)
-      const fn2 = jest.fn()
+      const fn1 = vi.fn().mockRejectedValue(customError)
+      const fn2 = vi.fn()
       const destructor = new Constructor()
 
       destructor.defer(fn1) // first run
@@ -85,11 +86,11 @@ describe('Constructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
         await delay(1000)
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
       })
       const destructor = new Constructor()
@@ -107,8 +108,8 @@ describe('Constructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn().mockRejectedValue(customError)
-      const fn2 = jest.fn()
+      const fn1 = vi.fn().mockRejectedValue(customError)
+      const fn2 = vi.fn()
       const destructor = new Constructor()
 
       destructor.defer(fn1) // first run
@@ -126,11 +127,11 @@ describe('Constructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
         await delay(1000)
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
       })
       const destructor = new Constructor()
@@ -148,8 +149,8 @@ describe('Constructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn().mockRejectedValue(customError)
-      const fn2 = jest.fn()
+      const fn1 = vi.fn().mockRejectedValue(customError)
+      const fn2 = vi.fn()
       const destructor = new Constructor()
 
       destructor.defer(fn1) // first run
@@ -168,11 +169,11 @@ describe('Constructor', () => {
     test('no error', async () => {
       let timestamp1: number
       let timestamp2: number
-      const fn1 = jest.fn(async () => {
+      const fn1 = vi.fn(async () => {
         timestamp1 = Date.now()
         await delay(1000)
       })
-      const fn2 = jest.fn(async () => {
+      const fn2 = vi.fn(async () => {
         timestamp2 = Date.now()
       })
       const destructor = new Constructor()
@@ -190,8 +191,8 @@ describe('Constructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn().mockRejectedValue(customError)
-      const fn2 = jest.fn()
+      const fn1 = vi.fn().mockRejectedValue(customError)
+      const fn2 = vi.fn()
       const destructor = new Constructor()
 
       destructor.defer(fn1) // first run

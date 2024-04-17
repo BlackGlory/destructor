@@ -1,4 +1,4 @@
-import { Executor } from './executor'
+import { Executor } from './executor.js'
 import { Awaitable } from '@blackglory/prelude'
 
 export class Destructor extends Executor {

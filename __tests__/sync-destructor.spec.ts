@@ -1,11 +1,12 @@
-import { SyncDestructor } from '@src/sync-destructor'
+import { describe, test, expect, vi } from 'vitest'
+import { SyncDestructor } from '@src/sync-destructor.js'
 import { getError } from 'return-style'
 
 describe('SyncDestructor', () => {
   test('size', () => {
     const executor = new SyncDestructor()
-    const fn1 = jest.fn()
-    const fn2 = jest.fn()
+    const fn1 = vi.fn()
+    const fn2 = vi.fn()
 
     const size1 = executor.size
     executor.defer(fn1)
@@ -26,7 +27,7 @@ describe('SyncDestructor', () => {
 
   test('remove', () => {
     const executor = new SyncDestructor()
-    const callback = jest.fn()
+    const callback = vi.fn()
     executor.defer(callback)
     executor.defer(callback)
 
@@ -41,10 +42,10 @@ describe('SyncDestructor', () => {
       let counter = 0
       let count1: number
       let count2: number
-      const fn1 = jest.fn(() => {
+      const fn1 = vi.fn(() => {
         count1 = ++counter
       })
-      const fn2 = jest.fn(() => {
+      const fn2 = vi.fn(() => {
         count2 = ++counter
       })
       const destructor = new SyncDestructor()
@@ -63,8 +64,8 @@ describe('SyncDestructor', () => {
 
     test('error', () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn()
-      const fn2 = jest.fn(() => { throw customError })
+      const fn1 = vi.fn()
+      const fn2 = vi.fn(() => { throw customError })
       const destructor = new SyncDestructor()
 
       destructor.defer(fn1) // second run
@@ -84,10 +85,10 @@ describe('SyncDestructor', () => {
       let counter = 0
       let count1: number
       let count2: number
-      const fn1 = jest.fn(() => {
+      const fn1 = vi.fn(() => {
         count1 = ++counter
       })
-      const fn2 = jest.fn(() => {
+      const fn2 = vi.fn(() => {
         count2 = ++counter
       })
       const destructor = new SyncDestructor()
@@ -106,8 +107,8 @@ describe('SyncDestructor', () => {
 
     test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = jest.fn()
-      const fn2 = jest.fn(() => { throw customError })
+      const fn1 = vi.fn()
+      const fn2 = vi.fn(() => { throw customError })
       const destructor = new SyncDestructor()
 
       destructor.defer(fn1) // second run

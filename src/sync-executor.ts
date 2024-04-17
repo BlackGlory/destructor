@@ -5,7 +5,7 @@ export abstract class SyncExecutor {
 
   abstract defer(callback: () => unknown): void
 
-  get size() {
+  get size(): number {
     return this.callbacks.length
   }
 

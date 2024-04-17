@@ -1,10 +1,11 @@
 import { describe, test, expect, vi } from 'vitest'
-import { SyncConstructor } from '@src/sync-constructor.js'
+import { GeneratorDestructor } from '@src/generator-destructor.js'
+import { toArray } from '@blackglory/prelude'
 import { getError } from 'return-style'
 
-describe('SyncConstructor', () => {
+describe('GeneratorDestructor', () => {
   test('size', () => {
-    const executor = new SyncConstructor()
+    const executor = new GeneratorDestructor()
     const fn1 = vi.fn()
     const fn2 = vi.fn()
 
@@ -26,13 +27,13 @@ describe('SyncConstructor', () => {
   })
 
   test('remove', () => {
-    const executor = new SyncConstructor()
+    const executor = new GeneratorDestructor()
     const callback = vi.fn()
     executor.defer(callback)
     executor.defer(callback)
 
     executor.remove(callback)
-    executor.execute()
+    toArray(executor.execute())
 
     expect(callback).not.toBeCalled()
   })
@@ -48,35 +49,37 @@ describe('SyncConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new SyncConstructor()
+      const destructor = new GeneratorDestructor()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      destructor.defer(fn1) // second run
+      destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      destructor.execute()
+      toArray(destructor.execute())
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
-      expect(count1!).toBe(1)
-      expect(count2!).toBe(2)
+      expect(count1!).toBe(2)
+      expect(count2!).toBe(1)
     })
 
     test('error', () => {
       const customError = new Error('custom error')
-      const fn1 = vi.fn(() => { throw customError })
-      const fn2 = vi.fn()
-      const destructor = new SyncConstructor()
+      const fn1 = vi.fn()
+      const fn2 = vi.fn(function * () {
+        throw customError
+      })
+      const destructor = new GeneratorDestructor()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      destructor.defer(fn1) // second run
+      destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      const err = getError(() => destructor.execute())
+      const err = getError(() => toArray(destructor.execute()))
       expect(err).toBe(customError)
-      expect(fn1).toBeCalledTimes(1)
-      expect(fn2).toBeCalledTimes(0)
+      expect(fn1).toBeCalledTimes(0)
+      expect(fn2).toBeCalledTimes(1)
     })
   })
 
@@ -91,32 +94,34 @@ describe('SyncConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new SyncConstructor()
+      const destructor = new GeneratorDestructor()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      destructor.defer(fn1) // second run
+      destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      destructor.executeSettled()
+      toArray(destructor.executeSettled())
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
-      expect(count1!).toBe(1)
-      expect(count2!).toBe(2)
+      expect(count1!).toBe(2)
+      expect(count2!).toBe(1)
     })
 
-    test('error', () => {
+    test('error', async () => {
       const customError = new Error('custom error')
-      const fn1 = vi.fn(() => { throw customError })
-      const fn2 = vi.fn()
-      const destructor = new SyncConstructor()
+      const fn1 = vi.fn()
+      const fn2 = vi.fn(function* () {
+        throw customError
+      })
+      const destructor = new GeneratorDestructor()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      destructor.defer(fn1) // second run
+      destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      destructor.executeSettled()
+      toArray(destructor.executeSettled())
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
     })

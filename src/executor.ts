@@ -6,7 +6,7 @@ export abstract class Executor {
 
   abstract defer(callback: () => Awaitable<unknown>): void
 
-  get size() {
+  get size(): number {
     return this.callbacks.length
   }
 
