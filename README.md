@@ -10,13 +10,13 @@ yarn add extra-defer
 ```ts
 import { Destructor } from 'extra-defer'
 
-const d = new Destructor()
+const destructor = new Destructor()
 try {
   const handle = open()
-  d.defer(() => handle.close())
+  destructor.defer(() => handle.close())
   // ...
 } finally {
-  await d.execute()
+  await destructor.execute()
 }
 ```
 
