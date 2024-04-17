@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [0.3.0](https://github.com/BlackGlory/extra-defer/compare/v0.2.8...v0.3.0) (2024-04-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* - It requires Node.js >= v18.17.0
+- CommonJS => ESM
+
+### Features
+
+* add generator-related functions ([fb262c5](https://github.com/BlackGlory/extra-defer/commit/fb262c510c9992916eb9baeaa58453d60a7bc450))
+
 ### [0.2.8](https://github.com/BlackGlory/extra-defer/compare/v0.2.7...v0.2.8) (2023-06-10)
 
 
