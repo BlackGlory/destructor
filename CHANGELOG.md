@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.3.1](https://github.com/BlackGlory/extra-defer/compare/v0.3.0...v0.3.1) (2024-08-16)
+
+
+### Features
+
+* add `clear` and `options.autoClear` ([b8e24ce](https://github.com/BlackGlory/extra-defer/commit/b8e24ce9a9470b25802955d208ec87af74596039))
+* add arguments support ([37544f4](https://github.com/BlackGlory/extra-defer/commit/37544f4ef67bca68f2677b98dae11a349f15f00f))
+
 ## [0.3.0](https://github.com/BlackGlory/extra-defer/compare/v0.2.8...v0.3.0) (2024-04-17)
 
 
