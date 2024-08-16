@@ -2997,6 +2997,14 @@ extra-generator@^0.5.1:
     justypes "^4.2.1"
     return-style "^3.0.0"
 
+extra-generator@^0.5.9:
+  version "0.5.9"
+  resolved "https://registry.yarnpkg.com/extra-generator/-/extra-generator-0.5.9.tgz#c90de74a4958079d1fbed59f7965ea22dba1c5a6"
+  integrity sha512-FXwTIY1m05tjuG/u5vlFVhEw81dvV3ZR3XL9pnishdvrMVXb9h2VNC36JJlD9cOXJiSmZUVwN8Ci+uTsCVwpcw==
+  dependencies:
+    "@blackglory/prelude" "^0.3.1"
+    return-style "^3.0.0"
+
 extra-json-stable-stringify@^0.1.2:
   version "0.1.2"
   resolved "https://registry.yarnpkg.com/extra-json-stable-stringify/-/extra-json-stable-stringify-0.1.2.tgz#5eb6c28954507eaa675feff447c41ddd7db71322"
