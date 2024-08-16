@@ -89,6 +89,17 @@ describe('SyncDestructor', () => {
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
     })
+
+    test('autoClear: false', () => {
+      const fn = vi.fn()
+      const executor = new SyncDestructor({ autoClear: false })
+      executor.defer(fn)
+
+      executor.execute()
+
+      expect(fn).toBeCalledTimes(1)
+      expect(executor.size).toBe(1)
+    })
   })
 
   describe('executeSettled', () => {
@@ -118,7 +129,7 @@ describe('SyncDestructor', () => {
       expect(executor.size).toBe(0)
     })
 
-    test('error', async () => {
+    test('error', () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn(() => { throw customError })
@@ -131,6 +142,17 @@ describe('SyncDestructor', () => {
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
+    })
+
+    test('autoClear: false', () => {
+      const fn = vi.fn()
+      const executor = new SyncDestructor({ autoClear: false })
+      executor.defer(fn)
+
+      executor.executeSettled()
+
+      expect(fn).toBeCalledTimes(1)
+      expect(executor.size).toBe(1)
     })
   })
 })

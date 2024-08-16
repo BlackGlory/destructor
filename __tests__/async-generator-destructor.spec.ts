@@ -89,6 +89,17 @@ describe('AsyncGeneratorDestructor', () => {
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
     })
+
+    test('autoClear: false', async () => {
+      const fn = vi.fn()
+      const executor = new AsyncGeneratorDestructor({ autoClear: false })
+      executor.defer(fn)
+
+      await toArrayAsync(executor.execute())
+
+      expect(fn).toBeCalledTimes(1)
+      expect(executor.size).toBe(1)
+    })
   })
 
   describe('executeSettled', () => {
@@ -130,6 +141,17 @@ describe('AsyncGeneratorDestructor', () => {
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
+    })
+
+    test('autoClear: false', async () => {
+      const fn = vi.fn()
+      const executor = new AsyncGeneratorDestructor({ autoClear: false })
+      executor.defer(fn)
+
+      await toArrayAsync(executor.executeSettled())
+
+      expect(fn).toBeCalledTimes(1)
+      expect(executor.size).toBe(1)
     })
   })
 })

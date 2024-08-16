@@ -92,6 +92,17 @@ describe('GeneratorDestructor', () => {
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
     })
+
+    test('autoClear: false', () => {
+      const fn = vi.fn()
+      const executor = new GeneratorDestructor({ autoClear: false })
+      executor.defer(fn)
+
+      toArray(executor.execute())
+
+      expect(fn).toBeCalledTimes(1)
+      expect(executor.size).toBe(1)
+    })
   })
 
   describe('executeSettled', () => {
@@ -136,6 +147,17 @@ describe('GeneratorDestructor', () => {
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
+    })
+
+    test('autoClear: false', () => {
+      const fn = vi.fn()
+      const executor = new GeneratorDestructor({ autoClear: false })
+      executor.defer(fn)
+
+      toArray(executor.executeSettled())
+
+      expect(fn).toBeCalledTimes(1)
+      expect(executor.size).toBe(1)
     })
   })
 })
