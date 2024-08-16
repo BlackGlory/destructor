@@ -42,6 +42,7 @@ describe('Destructor', () => {
 
   describe('execute', () => {
     test('no error', async () => {
+      const arg = {}
       let timestamp1: number
       let timestamp2: number
       const fn1 = vi.fn(async () => {
@@ -51,16 +52,18 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor()
+      const destructor = new Destructor<[unknown]>()
 
       destructor.defer(fn1) // second run
       destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.execute()
+      await destructor.execute(arg)
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
@@ -84,6 +87,7 @@ describe('Destructor', () => {
 
   describe('executeSettled', () => {
     test('no error', async () => {
+      const arg = {}
       let timestamp1: number
       let timestamp2: number
       const fn1 = vi.fn(async () => {
@@ -93,16 +97,18 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor()
+      const destructor = new Destructor<[unknown]>()
 
       destructor.defer(fn1) // second run
       destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.executeSettled()
+      await destructor.executeSettled(arg)
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
     })
 
@@ -125,6 +131,7 @@ describe('Destructor', () => {
 
   describe('all', () => {
     test('no error', async () => {
+      const arg = {}
       let timestamp1: number
       let timestamp2: number
       const fn1 = vi.fn(async () => {
@@ -134,16 +141,18 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor()
+      const destructor = new Destructor<[unknown]>()
 
       destructor.defer(fn1) // second run
       destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.all()
+      await destructor.all(Infinity, arg)
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeLessThan(1000)
     })
 
@@ -167,6 +176,7 @@ describe('Destructor', () => {
 
   describe('allSettled', () => {
     test('no error', async () => {
+      const arg = {}
       let timestamp1: number
       let timestamp2: number
       const fn1 = vi.fn(async () => {
@@ -176,16 +186,18 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor()
+      const destructor = new Destructor<[unknown]>()
 
       destructor.defer(fn1) // second run
       destructor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.allSettled()
+      await destructor.allSettled(Infinity, arg)
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeLessThan(1000)
     })
 

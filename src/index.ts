@@ -1,5 +1,5 @@
-export * from './destructor.js'
 export * from './constructor.js'
+export * from './destructor.js'
 export * from './sync-constructor.js'
 export * from './sync-destructor.js'
 export * from './generator-constructor.js'

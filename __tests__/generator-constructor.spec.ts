@@ -40,6 +40,7 @@ describe('GeneratorConstructor', () => {
 
   describe('execute', () => {
     test('no error', () => {
+      const arg = {}
       let counter = 0
       let count1: number
       let count2: number
@@ -49,16 +50,18 @@ describe('GeneratorConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new GeneratorConstructor()
+      const destructor = new GeneratorConstructor<unknown, unknown, [unknown]>()
 
       destructor.defer(fn1) // first run
       destructor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      toArray(destructor.execute())
+      toArray(destructor.execute(arg))
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(1)
       expect(count2!).toBe(2)
     })
@@ -85,6 +88,7 @@ describe('GeneratorConstructor', () => {
 
   describe('executeSettled', () => {
     test('no error', () => {
+      const arg = {}
       let counter = 0
       let count1: number
       let count2: number
@@ -94,16 +98,18 @@ describe('GeneratorConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new GeneratorConstructor()
+      const destructor = new GeneratorConstructor<unknown, unknown, [unknown]>()
 
       destructor.defer(fn1) // first run
       destructor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      toArray(destructor.executeSettled())
+      toArray(destructor.executeSettled(arg))
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(1)
       expect(count2!).toBe(2)
     })

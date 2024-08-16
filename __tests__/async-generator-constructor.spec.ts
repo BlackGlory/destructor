@@ -40,6 +40,7 @@ describe('AsyncGeneratorConstructor', () => {
 
   describe('execute', () => {
     test('no error', async () => {
+      const arg = {}
       let counter = 0
       let count1: number
       let count2: number
@@ -49,16 +50,18 @@ describe('AsyncGeneratorConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new AsyncGeneratorConstructor()
+      const destructor = new AsyncGeneratorConstructor<unknown, unknown, [unknown]>()
 
       destructor.defer(fn1) // first run
       destructor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await toArrayAsync(destructor.execute())
+      await toArrayAsync(destructor.execute(arg))
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(1)
       expect(count2!).toBe(2)
     })
@@ -85,6 +88,7 @@ describe('AsyncGeneratorConstructor', () => {
 
   describe('executeSettled', () => {
     test('no error', async () => {
+      const arg = {}
       let counter = 0
       let count1: number
       let count2: number
@@ -94,16 +98,18 @@ describe('AsyncGeneratorConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new AsyncGeneratorConstructor()
+      const destructor = new AsyncGeneratorConstructor<unknown, unknown, [unknown]>()
 
       destructor.defer(fn1) // first run
       destructor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await toArrayAsync(destructor.executeSettled())
+      await toArrayAsync(destructor.executeSettled(arg))
       expect(fn1).toBeCalledTimes(1)
+      expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
+      expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(1)
       expect(count2!).toBe(2)
     })

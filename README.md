@@ -23,17 +23,17 @@ try {
 ## API
 ### Constructor
 ```ts
-class Constructor {
+class Constructor<Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: () => Awaitable<unknown>): void
-  remove(callback: () => Awaitable<unknown>): void
+  defer(callback: (...args: Args) => Awaitable<unknown>): void
+  remove(callback: (...args: Args) => Awaitable<unknown>): void
 
-  execute(): Promise<void>
-  executeSettled(): Promise<void>
+  execute(...args: Args): Promise<void>
+  executeSettled(...args: Args): Promise<void>
 
-  all(concurrency: number = Infinity): Promise<void>
-  allSettled(concurrency: number = Infinity): Promise<void>
+  all(concurrency: number = Infinity, ...args: Args): Promise<void>
+  allSettled(concurrency: number = Infinity, ...args: Args): Promise<void>
 }
 ```
 
@@ -41,17 +41,17 @@ Callbacks are executed in same order of `defer`.
 
 ### Destructor
 ```ts
-class Destructor {
+class Destructor<Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: () => Awaitable<unknown>): void
-  remove(callback: () => Awaitable<unknown>): void
+  defer(callback: (...args: Args) => Awaitable<unknown>): void
+  remove(callback: (...args: Args) => Awaitable<unknown>): void
 
-  execute(): Promise<void>
-  executeSettled(): Promise<void>
+  execute(...args: Args): Promise<void>
+  executeSettled(...args: Args): Promise<void>
 
-  all(concurrency: number = Infinity): Promise<void>
-  allSettled(concurrency: number = Infinity): Promise<void>
+  all(concurrency: number = Infinity, ...args: Args): Promise<void>
+  allSettled(concurrency: number = Infinity, ...args: Args): Promise<void>
 }
 ```
 
@@ -59,14 +59,14 @@ Callbacks are executed in reverse order of `defer`.
 
 ### SyncConstructor
 ```ts
-class SyncConstructor {
+class SyncConstructor<Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: () => unknown): void
-  remove(callback: () => unknown): void
+  defer(callback: (...args: Args) => unknown): void
+  remove(callback: (...args: Args) => unknown): void
 
-  execute(): void
-  executeSettled(): void
+  execute(...args: Args): void
+  executeSettled(...args: Args): void
 }
 ```
 
@@ -74,14 +74,14 @@ Callbacks are executed in same order of `defer`.
 
 ### SyncDestructor
 ```ts
-class SyncDestructor {
+class SyncDestructor<Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: () => unknown): void
-  remove(callback: () => unknown): void
+  defer(callback: (...args: Args) => unknown): void
+  remove(callback: (...args: Args) => unknown): void
 
-  execute(): void
-  executeSettled(): void
+  execute(...args: Args): void
+  executeSettled(...args: Args): void
 }
 ```
 
@@ -89,18 +89,18 @@ Callbacks are executed in reverse order of `defer`.
 
 ### GeneratorConstructor
 ```ts
-type ICallback<Yield, Next> = () =>
+type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 | void
 | Generator<Yield, void, Next>
 
-class GeneratorConstructor<Yield = unknown, Next = unknown> extends GeneratorExecutor<Yield, Next> {
+class GeneratorConstructor<Yield = unknown, Next = unknown, Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: ICallback<Yield, Next>): void
-  remove(callback: ICallback<Yield, Next>): void
+  defer(callback: ICallback<Yield, Next, Args>): void
+  remove(callback: ICallback<Yield, Next, Args>): void
 
-  execute(): Generator<Yield, void, Next>
-  executeSettled(): Generator<Yield, void, Next>
+  execute(...args: Args): Generator<Yield, void, Next>
+  executeSettled(...args: Args): Generator<Yield, void, Next>
 }
 ```
 
@@ -108,18 +108,18 @@ Callbacks are executed in same order of `defer`.
 
 ### GeneratorDestructor
 ```ts
-type ICallback<Yield, Next> = () =>
+type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 | void
 | Generator<Yield, void, Next>
 
-class GeneratorDestructor<Yield = unknown, Next = unknown> extends GeneratorExecutor<Yield, Next> {
+class GeneratorDestructor<Yield = unknown, Next = unknown, Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: ICallback<Yield, Next>): void
-  remove(callback: ICallback<Yield, Next>): void
+  defer(callback: ICallback<Yield, Next, Args>): void
+  remove(callback: ICallback<Yield, Next, Args>): void
 
-  execute(): Generator<Yield, void, Next>
-  executeSettled(): Generator<Yield, void, Next>
+  execute(...args: Args): Generator<Yield, void, Next>
+  executeSettled(...args: Args): Generator<Yield, void, Next>
 }
 ```
 
@@ -127,19 +127,23 @@ Callbacks are executed in reverse order of `defer`.
 
 ### AsyncGeneratorConstructor
 ```ts
-type ICallback<Yield, Next> = () =>
+type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 | void
 | Generator<Yield, void, Next>
 | AsyncGenerator<Yield, void, Next>
 
-class AsyncGeneratorConstructor<Yield = unknown, Next = unknown> extends AsyncGeneratorExecutor<Yield, Next> {
+class AsyncGeneratorConstructor<
+  Yield = unknown
+, Next = unknown
+, Args extends unknown[] = []
+> {
   get size(): number
 
-  defer(callback: ICallback<Yield, Next>): void
-  remove(callback: ICallback<Yield, Next>): void
+  defer(callback: ICallback<Yield, Next, Args>): void
+  remove(callback: ICallback<Yield, Next, Args>): void
 
-  execute(): AsyncGenerator<Yield, void, Next>
-  executeSettled(): AsyncGenerator<Yield, void, Next>
+  execute(...args: Args): AsyncGenerator<Yield, void, Next>
+  executeSettled(...args: Args): AsyncGenerator<Yield, void, Next>
 }
 ```
 
@@ -147,19 +151,19 @@ Callbacks are executed in same order of `defer`.
 
 ### AsyncGeneratorDestructor
 ```ts
-type ICallback<Yield, Next> = () =>
+type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 | void
 | Generator<Yield, void, Next>
 | AsyncGenerator<Yield, void, Next>
 
-class AsyncGeneratorDestructor<Yield = unknown, Next = unknown> extends AsyncGeneratorExecutor<Yield, Next> {
+class AsyncGeneratorDestructor<Yield = unknown, Next = unknown, Args extends unknown[] = []> {
   get size(): number
 
-  defer(callback: ICallback<Yield, Next>): void
-  remove(callback: ICallback<Yield, Next>): void
+  defer(callback: ICallback<Yield, Next, Args>): void
+  remove(callback: ICallback<Yield, Next, Args>): void
 
-  execute(): AsyncGenerator<Yield, void, Next>
-  executeSettled(): AsyncGenerator<Yield, void, Next>
+  execute(...args: Args): AsyncGenerator<Yield, void, Next>
+  executeSettled(...args: Args): AsyncGenerator<Yield, void, Next>
 }
 ```
 

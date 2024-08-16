@@ -1,30 +1,30 @@
 import { pass } from '@blackglory/prelude'
 
-export abstract class SyncExecutor {
-  protected callbacks: Array<() => unknown> = []
+export abstract class SyncExecutor<Args extends unknown[]> {
+  protected callbacks: Array<(...args: Args) => unknown> = []
 
-  abstract defer(callback: () => unknown): void
+  abstract defer(callback: (...args: Args) => unknown): void
 
   get size(): number {
     return this.callbacks.length
   }
 
-  remove(callback: () => unknown): void {
+  remove(callback: (...args: Args) => unknown): void {
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }
 
-  execute(): void {
+  execute(...args: Args): void {
     const callbacks = this.callbacks
     this.callbacks = []
-    callbacks.forEach(callback => callback())
+    callbacks.forEach(callback => callback(...args))
   }
 
-  executeSettled(): void {
+  executeSettled(...args: Args): void {
     const callbacks = this.callbacks
     this.callbacks = []
     callbacks.forEach(callback => {
       try {
-        callback()
+        callback(...args)
       } catch {
         pass()
       }
