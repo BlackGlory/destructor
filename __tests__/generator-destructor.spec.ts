@@ -58,20 +58,21 @@ describe('GeneratorDestructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new GeneratorDestructor<unknown, unknown, [unknown]>()
+      const executor = new GeneratorDestructor<unknown, unknown, [unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      toArray(destructor.execute(arg))
+      toArray(executor.execute(arg))
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(2)
       expect(count2!).toBe(1)
+      expect(executor.size).toBe(0)
     })
 
     test('error', () => {
@@ -80,17 +81,18 @@ describe('GeneratorDestructor', () => {
       const fn2 = vi.fn(function * () {
         throw customError
       })
-      const destructor = new GeneratorDestructor()
+      const executor = new GeneratorDestructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      const err = getError(() => toArray(destructor.execute()))
+      const err = getError(() => toArray(executor.execute()))
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 
@@ -106,20 +108,21 @@ describe('GeneratorDestructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new GeneratorDestructor<unknown, unknown, [unknown]>()
+      const executor = new GeneratorDestructor<unknown, unknown, [unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      toArray(destructor.executeSettled(arg))
+      toArray(executor.executeSettled(arg))
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(2)
       expect(count2!).toBe(1)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
@@ -128,16 +131,17 @@ describe('GeneratorDestructor', () => {
       const fn2 = vi.fn(function* () {
         throw customError
       })
-      const destructor = new GeneratorDestructor()
+      const executor = new GeneratorDestructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      toArray(destructor.executeSettled())
+      toArray(executor.executeSettled())
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 })

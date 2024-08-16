@@ -57,37 +57,39 @@ describe('SyncDestructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new SyncDestructor<[unknown]>()
+      const executor = new SyncDestructor<[unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      destructor.execute(arg)
+      executor.execute(arg)
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(2)
       expect(count2!).toBe(1)
+      expect(executor.size).toBe(0)
     })
 
     test('error', () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn(() => { throw customError })
-      const destructor = new SyncDestructor()
+      const executor = new SyncDestructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      const err = getError(() => destructor.execute())
+      const err = getError(() => executor.execute())
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 
@@ -103,36 +105,38 @@ describe('SyncDestructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new SyncDestructor<[unknown]>()
+      const executor = new SyncDestructor<[unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      destructor.executeSettled(arg)
+      executor.executeSettled(arg)
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(2)
       expect(count2!).toBe(1)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn(() => { throw customError })
-      const destructor = new SyncDestructor()
+      const executor = new SyncDestructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      destructor.executeSettled()
+      executor.executeSettled()
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 })

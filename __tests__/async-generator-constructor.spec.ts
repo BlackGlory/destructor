@@ -58,20 +58,21 @@ describe('AsyncGeneratorConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new AsyncGeneratorConstructor<unknown, unknown, [unknown]>()
+      const executor = new AsyncGeneratorConstructor<unknown, unknown, [unknown]>()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      executor.defer(fn1) // first run
+      executor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await toArrayAsync(destructor.execute(arg))
+      await toArrayAsync(executor.execute(arg))
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(1)
       expect(count2!).toBe(2)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
@@ -80,17 +81,18 @@ describe('AsyncGeneratorConstructor', () => {
         throw customError
       })
       const fn2 = vi.fn()
-      const destructor = new AsyncGeneratorConstructor()
+      const executor = new AsyncGeneratorConstructor()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      executor.defer(fn1) // first run
+      executor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      const err = await getErrorAsync(() => toArrayAsync(destructor.execute()))
+      const err = await getErrorAsync(() => toArrayAsync(executor.execute()))
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(0)
+      expect(executor.size).toBe(0)
     })
   })
 
@@ -106,20 +108,21 @@ describe('AsyncGeneratorConstructor', () => {
       const fn2 = vi.fn(() => {
         count2 = ++counter
       })
-      const destructor = new AsyncGeneratorConstructor<unknown, unknown, [unknown]>()
+      const executor = new AsyncGeneratorConstructor<unknown, unknown, [unknown]>()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      executor.defer(fn1) // first run
+      executor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await toArrayAsync(destructor.executeSettled(arg))
+      await toArrayAsync(executor.executeSettled(arg))
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(count1!).toBe(1)
       expect(count2!).toBe(2)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
@@ -128,16 +131,17 @@ describe('AsyncGeneratorConstructor', () => {
         throw customError
       })
       const fn2 = vi.fn()
-      const destructor = new AsyncGeneratorConstructor()
+      const executor = new AsyncGeneratorConstructor()
 
-      destructor.defer(fn1) // first run
-      destructor.defer(fn2) // second run
+      executor.defer(fn1) // first run
+      executor.defer(fn2) // second run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await toArrayAsync(destructor.executeSettled())
+      await toArrayAsync(executor.executeSettled())
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 })

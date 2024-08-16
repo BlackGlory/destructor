@@ -60,36 +60,38 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor<[unknown]>()
+      const executor = new Destructor<[unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.execute(arg)
+      await executor.execute(arg)
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
-      const destructor = new Destructor()
+      const executor = new Destructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      const err = await getErrorPromise(destructor.execute())
+      const err = await getErrorPromise(executor.execute())
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 
@@ -105,35 +107,37 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor<[unknown]>()
+      const executor = new Destructor<[unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.executeSettled(arg)
+      await executor.executeSettled(arg)
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeGreaterThanOrEqual(1000 - TIME_ERROR)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
-      const destructor = new Destructor()
+      const executor = new Destructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.executeSettled()
+      await executor.executeSettled()
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 
@@ -149,36 +153,38 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor<[unknown]>()
+      const executor = new Destructor<[unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.all(Infinity, arg)
+      await executor.all(Infinity, arg)
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeLessThan(1000)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
-      const destructor = new Destructor()
+      const executor = new Destructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      const err = await getErrorPromise(destructor.all())
+      const err = await getErrorPromise(executor.all())
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 
@@ -194,35 +200,37 @@ describe('Destructor', () => {
         timestamp2 = Date.now()
         await delay(1000)
       })
-      const destructor = new Destructor<[unknown]>()
+      const executor = new Destructor<[unknown]>()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.allSettled(Infinity, arg)
+      await executor.allSettled(Infinity, arg)
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
       expect(fn2).toBeCalledWith(arg)
       expect(timestamp1! - timestamp2!).toBeLessThan(1000)
+      expect(executor.size).toBe(0)
     })
 
     test('error', async () => {
       const customError = new Error('custom error')
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
-      const destructor = new Destructor()
+      const executor = new Destructor()
 
-      destructor.defer(fn1) // second run
-      destructor.defer(fn2) // first run
+      executor.defer(fn1) // second run
+      executor.defer(fn2) // first run
 
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(0)
-      await destructor.allSettled()
+      await executor.allSettled()
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
+      expect(executor.size).toBe(0)
     })
   })
 })
