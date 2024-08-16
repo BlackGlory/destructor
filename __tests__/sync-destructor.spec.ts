@@ -16,6 +16,8 @@ describe('SyncDestructor', () => {
     executor.defer(fn2)
     const size4 = executor.size
 
+    expect(fn1).toBeCalledTimes(0)
+    expect(fn2).toBeCalledTimes(0)
     expect(size1).toBe(0)
     expect(size2).toBe(1)
     expect(size3).toBe(2)
@@ -58,13 +60,11 @@ describe('SyncDestructor', () => {
         count2 = ++counter
       })
       const executor = new SyncDestructor<[unknown]>()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       executor.execute(arg)
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -79,13 +79,11 @@ describe('SyncDestructor', () => {
       const fn1 = vi.fn()
       const fn2 = vi.fn(() => { throw customError })
       const executor = new SyncDestructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       const err = getError(() => executor.execute())
+
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(1)
@@ -106,13 +104,11 @@ describe('SyncDestructor', () => {
         count2 = ++counter
       })
       const executor = new SyncDestructor<[unknown]>()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       executor.executeSettled(arg)
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -127,13 +123,11 @@ describe('SyncDestructor', () => {
       const fn1 = vi.fn()
       const fn2 = vi.fn(() => { throw customError })
       const executor = new SyncDestructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       executor.executeSettled()
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)

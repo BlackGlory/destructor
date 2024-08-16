@@ -17,6 +17,8 @@ describe('GeneratorConstructor', () => {
     executor.defer(fn2)
     const size4 = executor.size
 
+    expect(fn1).toBeCalledTimes(0)
+    expect(fn2).toBeCalledTimes(0)
     expect(size1).toBe(0)
     expect(size2).toBe(1)
     expect(size3).toBe(2)
@@ -59,13 +61,11 @@ describe('GeneratorConstructor', () => {
         count2 = ++counter
       })
       const executor = new GeneratorConstructor<unknown, unknown, [unknown]>()
-
       executor.defer(fn1) // first run
       executor.defer(fn2) // second run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       toArray(executor.execute(arg))
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -82,13 +82,11 @@ describe('GeneratorConstructor', () => {
       })
       const fn2 = vi.fn()
       const executor = new GeneratorConstructor()
-
       executor.defer(fn1) // first run
       executor.defer(fn2) // second run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       const err = getError(() => toArray(executor.execute()))
+
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(0)
@@ -109,13 +107,11 @@ describe('GeneratorConstructor', () => {
         count2 = ++counter
       })
       const executor = new GeneratorConstructor<unknown, unknown, [unknown]>()
-
       executor.defer(fn1) // first run
       executor.defer(fn2) // second run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       toArray(executor.executeSettled(arg))
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -132,13 +128,11 @@ describe('GeneratorConstructor', () => {
       })
       const fn2 = vi.fn()
       const executor = new GeneratorConstructor()
-
       executor.defer(fn1) // first run
       executor.defer(fn2) // second run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       toArray(executor.executeSettled())
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)

@@ -19,6 +19,8 @@ describe('Destructor', () => {
     executor.defer(fn2)
     const size4 = executor.size
 
+    expect(fn1).toBeCalledTimes(0)
+    expect(fn2).toBeCalledTimes(0)
     expect(size1).toBe(0)
     expect(size2).toBe(1)
     expect(size3).toBe(2)
@@ -61,13 +63,11 @@ describe('Destructor', () => {
         await delay(1000)
       })
       const executor = new Destructor<[unknown]>()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await executor.execute(arg)
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -81,13 +81,11 @@ describe('Destructor', () => {
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
       const executor = new Destructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       const err = await getErrorPromise(executor.execute())
+
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(1)
@@ -108,13 +106,11 @@ describe('Destructor', () => {
         await delay(1000)
       })
       const executor = new Destructor<[unknown]>()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await executor.executeSettled(arg)
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -128,13 +124,11 @@ describe('Destructor', () => {
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
       const executor = new Destructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await executor.executeSettled()
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
@@ -154,13 +148,11 @@ describe('Destructor', () => {
         await delay(1000)
       })
       const executor = new Destructor<[unknown]>()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await executor.all(Infinity, arg)
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -174,13 +166,11 @@ describe('Destructor', () => {
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
       const executor = new Destructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       const err = await getErrorPromise(executor.all())
+
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
@@ -201,13 +191,11 @@ describe('Destructor', () => {
         await delay(1000)
       })
       const executor = new Destructor<[unknown]>()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await executor.allSettled(Infinity, arg)
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn1).toBeCalledWith(arg)
       expect(fn2).toBeCalledTimes(1)
@@ -221,13 +209,11 @@ describe('Destructor', () => {
       const fn1 = vi.fn()
       const fn2 = vi.fn().mockRejectedValue(customError)
       const executor = new Destructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await executor.allSettled()
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)

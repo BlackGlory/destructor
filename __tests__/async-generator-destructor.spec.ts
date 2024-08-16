@@ -17,6 +17,8 @@ describe('AsyncGeneratorDestructor', () => {
     executor.defer(fn2)
     const size4 = executor.size
 
+    expect(fn1).toBeCalledTimes(0)
+    expect(fn2).toBeCalledTimes(0)
     expect(size1).toBe(0)
     expect(size2).toBe(1)
     expect(size3).toBe(2)
@@ -58,13 +60,11 @@ describe('AsyncGeneratorDestructor', () => {
         count2 = ++counter
       })
       const executor = new AsyncGeneratorDestructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await toArrayAsync(executor.execute())
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(count1!).toBe(2)
@@ -79,13 +79,11 @@ describe('AsyncGeneratorDestructor', () => {
         throw customError
       })
       const executor = new AsyncGeneratorDestructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       const err = await getErrorAsync(() => toArrayAsync(executor.execute()))
+
       expect(err).toBe(customError)
       expect(fn1).toBeCalledTimes(0)
       expect(fn2).toBeCalledTimes(1)
@@ -105,13 +103,11 @@ describe('AsyncGeneratorDestructor', () => {
         count2 = ++counter
       })
       const executor = new AsyncGeneratorDestructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await toArrayAsync(executor.executeSettled())
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(count1!).toBe(2)
@@ -126,13 +122,11 @@ describe('AsyncGeneratorDestructor', () => {
         throw customError
       })
       const executor = new AsyncGeneratorDestructor()
-
       executor.defer(fn1) // second run
       executor.defer(fn2) // first run
 
-      expect(fn1).toBeCalledTimes(0)
-      expect(fn2).toBeCalledTimes(0)
       await toArrayAsync(executor.executeSettled())
+
       expect(fn1).toBeCalledTimes(1)
       expect(fn2).toBeCalledTimes(1)
       expect(executor.size).toBe(0)
