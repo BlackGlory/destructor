@@ -26,8 +26,11 @@ try {
 class Constructor<Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: (...args: Args) => Awaitable<unknown>): void
   remove(callback: (...args: Args) => Awaitable<unknown>): void
+  clear(): void
 
   execute(...args: Args): Promise<void>
   executeSettled(...args: Args): Promise<void>
@@ -44,8 +47,11 @@ Callbacks are executed in same order of `defer`.
 class Destructor<Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: (...args: Args) => Awaitable<unknown>): void
   remove(callback: (...args: Args) => Awaitable<unknown>): void
+  clear(): void
 
   execute(...args: Args): Promise<void>
   executeSettled(...args: Args): Promise<void>
@@ -62,8 +68,11 @@ Callbacks are executed in reverse order of `defer`.
 class SyncConstructor<Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: (...args: Args) => unknown): void
   remove(callback: (...args: Args) => unknown): void
+  clear(): void
 
   execute(...args: Args): void
   executeSettled(...args: Args): void
@@ -77,8 +86,11 @@ Callbacks are executed in same order of `defer`.
 class SyncDestructor<Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: (...args: Args) => unknown): void
   remove(callback: (...args: Args) => unknown): void
+  clear(): void
 
   execute(...args: Args): void
   executeSettled(...args: Args): void
@@ -96,8 +108,11 @@ type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 class GeneratorConstructor<Yield = unknown, Next = unknown, Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: ICallback<Yield, Next, Args>): void
   remove(callback: ICallback<Yield, Next, Args>): void
+  clear(): void
 
   execute(...args: Args): Generator<Yield, void, Next>
   executeSettled(...args: Args): Generator<Yield, void, Next>
@@ -115,8 +130,11 @@ type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 class GeneratorDestructor<Yield = unknown, Next = unknown, Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: ICallback<Yield, Next, Args>): void
   remove(callback: ICallback<Yield, Next, Args>): void
+  clear(): void
 
   execute(...args: Args): Generator<Yield, void, Next>
   executeSettled(...args: Args): Generator<Yield, void, Next>
@@ -139,8 +157,11 @@ class AsyncGeneratorConstructor<
 > {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: ICallback<Yield, Next, Args>): void
   remove(callback: ICallback<Yield, Next, Args>): void
+  clear(): void
 
   execute(...args: Args): AsyncGenerator<Yield, void, Next>
   executeSettled(...args: Args): AsyncGenerator<Yield, void, Next>
@@ -159,8 +180,11 @@ type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 class AsyncGeneratorDestructor<Yield = unknown, Next = unknown, Args extends unknown[] = []> {
   get size(): number
 
+  constructor(options: { autoClear?: boolean = true })
+
   defer(callback: ICallback<Yield, Next, Args>): void
   remove(callback: ICallback<Yield, Next, Args>): void
+  clear(): void
 
   execute(...args: Args): AsyncGenerator<Yield, void, Next>
   executeSettled(...args: Args): AsyncGenerator<Yield, void, Next>

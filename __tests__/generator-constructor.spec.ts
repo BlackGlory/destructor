@@ -4,7 +4,7 @@ import { toArray } from '@blackglory/prelude'
 import { getError } from 'return-style'
 
 describe('GeneratorConstructor', () => {
-  test('size', () => {
+  test('defer', () => {
     const executor = new GeneratorConstructor()
     const fn1 = vi.fn()
     const fn2 = vi.fn()
@@ -16,26 +16,34 @@ describe('GeneratorConstructor', () => {
     const size3 = executor.size
     executor.defer(fn2)
     const size4 = executor.size
-    executor.remove(fn1)
-    const size5 = executor.size
 
     expect(size1).toBe(0)
     expect(size2).toBe(1)
     expect(size3).toBe(2)
     expect(size4).toBe(3)
-    expect(size5).toBe(1)
   })
 
   test('remove', () => {
     const executor = new GeneratorConstructor()
+    const callback1 = vi.fn()
+    const callback2 = vi.fn()
+    executor.defer(callback1)
+    executor.defer(callback1)
+    executor.defer(callback2)
+
+    executor.remove(callback1)
+
+    expect(executor.size).toBe(1)
+  })
+
+  test('clear', () => {
+    const executor = new GeneratorConstructor()
     const callback = vi.fn()
     executor.defer(callback)
-    executor.defer(callback)
 
-    executor.remove(callback)
-    toArray(executor.execute())
+    executor.clear()
 
-    expect(callback).not.toBeCalled()
+    expect(executor.size).toBe(0)
   })
 
   describe('execute', () => {

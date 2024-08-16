@@ -2,7 +2,12 @@ import { each } from 'extra-promise'
 import { Awaitable } from '@blackglory/prelude'
 
 export abstract class Executor<Args extends unknown[]> {
+  private autoClear: boolean
   private callbacks: Array<(...args: Args) => Awaitable<unknown>> = []
+
+  constructor({ autoClear = true }: { autoClear?: boolean } = {}) {
+    this.autoClear = autoClear
+  }
 
   get size(): number {
     return this.callbacks.length
@@ -16,6 +21,10 @@ export abstract class Executor<Args extends unknown[]> {
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }
 
+  clear(): void {
+    this.callbacks = []
+  }
+
   async execute(...args: Args): Promise<void> {
     await this.all(1, ...args)
   }
@@ -26,14 +35,20 @@ export abstract class Executor<Args extends unknown[]> {
 
   async all(concurrency: number = Infinity, ...args: Args): Promise<void> {
     const callbacks = this.callbacks
-    this.callbacks = []
+
+    if (this.autoClear) {
+      this.clear()
+    }
 
     await each(this.iterate(callbacks), callback => callback(...args), concurrency)
   }
 
   async allSettled(concurrency: number = Infinity, ...args: Args): Promise<void> {
     const callbacks = this.callbacks
-    this.callbacks = []
+
+    if (this.autoClear) {
+      this.clear()
+    }
 
     await each(this.iterate(callbacks), async callback => {
       try {

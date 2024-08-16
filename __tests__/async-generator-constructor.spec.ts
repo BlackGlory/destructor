@@ -4,7 +4,7 @@ import { toArrayAsync } from '@blackglory/prelude'
 import { getErrorAsync } from 'return-style'
 
 describe('AsyncGeneratorConstructor', () => {
-  test('size', () => {
+  test('defer', () => {
     const executor = new AsyncGeneratorConstructor()
     const fn1 = vi.fn()
     const fn2 = vi.fn()
@@ -16,26 +16,34 @@ describe('AsyncGeneratorConstructor', () => {
     const size3 = executor.size
     executor.defer(fn2)
     const size4 = executor.size
-    executor.remove(fn1)
-    const size5 = executor.size
 
     expect(size1).toBe(0)
     expect(size2).toBe(1)
     expect(size3).toBe(2)
     expect(size4).toBe(3)
-    expect(size5).toBe(1)
   })
 
-  test('remove', async () => {
+  test('remove', () => {
+    const executor = new AsyncGeneratorConstructor()
+    const callback1 = vi.fn()
+    const callback2 = vi.fn()
+    executor.defer(callback1)
+    executor.defer(callback1)
+    executor.defer(callback2)
+
+    executor.remove(callback1)
+
+    expect(executor.size).toBe(1)
+  })
+
+  test('clear', () => {
     const executor = new AsyncGeneratorConstructor()
     const callback = vi.fn()
     executor.defer(callback)
-    executor.defer(callback)
 
-    executor.remove(callback)
-    await toArrayAsync(executor.execute())
+    executor.clear()
 
-    expect(callback).not.toBeCalled()
+    expect(executor.size).toBe(0)
   })
 
   describe('execute', () => {

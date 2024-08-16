@@ -1,5 +1,10 @@
 export abstract class SyncExecutor<Args extends unknown[]> {
+  private autoClear: boolean
   private callbacks: Array<(...args: Args) => unknown> = []
+
+  constructor({ autoClear = true }: { autoClear?: boolean } = {}) {
+    this.autoClear = autoClear
+  }
 
   get size(): number {
     return this.callbacks.length
@@ -13,9 +18,16 @@ export abstract class SyncExecutor<Args extends unknown[]> {
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }
 
+  clear(): void {
+    this.callbacks = []
+  }
+
   execute(...args: Args): void {
     const callbacks = this.callbacks
-    this.callbacks = []
+
+    if (this.autoClear) {
+      this.clear()
+    }
 
     for (const callback of this.iterate(callbacks)) {
       callback(...args)
@@ -24,7 +36,10 @@ export abstract class SyncExecutor<Args extends unknown[]> {
 
   executeSettled(...args: Args): void {
     const callbacks = this.callbacks
-    this.callbacks = []
+
+    if (this.autoClear) {
+      this.clear()
+    }
 
     for (const callback of this.iterate(callbacks)) {
       try {

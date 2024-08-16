@@ -6,7 +6,12 @@ export type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 | AsyncGenerator<Yield, void, Next>
 
 export abstract class AsyncGeneratorExecutor<Yield, Next, Args extends unknown[]> {
+  private autoClear: boolean
   private callbacks: Array<ICallback<Yield, Next, Args>> = []
+
+  constructor({ autoClear = true }: { autoClear?: boolean } = {}) {
+    this.autoClear = autoClear
+  }
 
   get size(): number {
     return this.callbacks.length
@@ -20,9 +25,16 @@ export abstract class AsyncGeneratorExecutor<Yield, Next, Args extends unknown[]
     this.callbacks = this.callbacks.filter(x => x !== callback)
   }
 
+  clear(): void {
+    this.callbacks = []
+  }
+
   async * execute(...args: Args): AsyncGenerator<Yield, void, Next> {
     const callbacks = this.callbacks
-    this.callbacks = []
+
+    if (this.autoClear) {
+      this.clear()
+    }
 
     for (const callback of this.iterate(callbacks)) {
       yield* goAsyncGenerator(() => callback(...args))
@@ -31,7 +43,10 @@ export abstract class AsyncGeneratorExecutor<Yield, Next, Args extends unknown[]
 
   async * executeSettled(...args: Args): AsyncGenerator<Yield, void, Next> {
     const callbacks = this.callbacks
-    this.callbacks = []
+
+    if (this.autoClear) {
+      this.clear()
+    }
 
     for (const callback of this.iterate(callbacks)) {
       try {
