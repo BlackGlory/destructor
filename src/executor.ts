@@ -1,13 +1,15 @@
 import { each } from 'extra-promise'
-import { pass, Awaitable } from '@blackglory/prelude'
+import { Awaitable } from '@blackglory/prelude'
 
 export abstract class Executor<Args extends unknown[]> {
-  protected callbacks: Array<(...args: Args) => Awaitable<unknown>> = []
-
-  abstract defer(callback: (...args: Args) => Awaitable<unknown>): void
+  private callbacks: Array<(...args: Args) => Awaitable<unknown>> = []
 
   get size(): number {
     return this.callbacks.length
+  }
+
+  defer(callback: (...args: Args) => Awaitable<unknown>): void {
+    this.callbacks.push(callback)
   }
 
   remove(callback: (...args: Args) => Awaitable<unknown>): void {
@@ -25,18 +27,24 @@ export abstract class Executor<Args extends unknown[]> {
   async all(concurrency: number = Infinity, ...args: Args): Promise<void> {
     const callbacks = this.callbacks
     this.callbacks = []
-    await each(callbacks, callback => callback(...args), concurrency)
+
+    await each(this.iterate(callbacks), callback => callback(...args), concurrency)
   }
 
   async allSettled(concurrency: number = Infinity, ...args: Args): Promise<void> {
     const callbacks = this.callbacks
     this.callbacks = []
-    await each(callbacks, async callback => {
+
+    await each(this.iterate(callbacks), async callback => {
       try {
         await callback(...args)
       } catch {
-        pass()
+        // pass
       }
     }, concurrency)
   }
+
+  protected abstract iterate(
+    callbacks: Array<(...args: Args) => Awaitable<unknown>>
+  ): Iterable<(...args: Args) => Awaitable<unknown>>
 }

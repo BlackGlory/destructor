@@ -1,12 +1,12 @@
-import { pass } from '@blackglory/prelude'
-
 export abstract class SyncExecutor<Args extends unknown[]> {
-  protected callbacks: Array<(...args: Args) => unknown> = []
-
-  abstract defer(callback: (...args: Args) => unknown): void
+  private callbacks: Array<(...args: Args) => unknown> = []
 
   get size(): number {
     return this.callbacks.length
+  }
+
+  defer(callback: (...args: Args) => unknown): void {
+    this.callbacks.push(callback)
   }
 
   remove(callback: (...args: Args) => unknown): void {
@@ -16,18 +16,26 @@ export abstract class SyncExecutor<Args extends unknown[]> {
   execute(...args: Args): void {
     const callbacks = this.callbacks
     this.callbacks = []
-    callbacks.forEach(callback => callback(...args))
+
+    for (const callback of this.iterate(callbacks)) {
+      callback(...args)
+    }
   }
 
   executeSettled(...args: Args): void {
     const callbacks = this.callbacks
     this.callbacks = []
-    callbacks.forEach(callback => {
+
+    for (const callback of this.iterate(callbacks)) {
       try {
         callback(...args)
       } catch {
-        pass()
+        // pass
       }
-    })
+    }
   }
+
+  protected abstract iterate(
+    callbacks: Array<(...args: Args) => unknown>
+  ): Iterable<(...args: Args) => unknown>
 }

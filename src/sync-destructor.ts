@@ -1,7 +1,9 @@
 import { SyncExecutor } from './sync-executor.js'
 
 export class SyncDestructor<Args extends unknown[] = []> extends SyncExecutor<Args> {
-  defer(callback: (...args: Args) => unknown): void {
-    this.callbacks.unshift(callback)
+  protected * iterate(callbacks: Array<(...args: Args) => unknown>) {
+    for (let i = callbacks.length; i--;) {
+      yield callbacks[i]
+    }
   }
 }

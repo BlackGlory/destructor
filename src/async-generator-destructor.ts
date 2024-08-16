@@ -5,7 +5,9 @@ export class AsyncGeneratorDestructor<
 , Next = unknown
 , Args extends unknown[] = []
 > extends AsyncGeneratorExecutor<Yield, Next, Args> {
-  defer(callback: ICallback<Yield, Next, Args>): void {
-    this.callbacks.unshift(callback)
+  protected * iterate(callbacks: Array<ICallback<Yield, Next, Args>>) {
+    for (let i = callbacks.length; i--;) {
+      yield callbacks[i]
+    }
   }
 }

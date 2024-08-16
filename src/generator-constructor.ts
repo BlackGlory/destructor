@@ -5,7 +5,7 @@ export class GeneratorConstructor<
 , Next = unknown
 , Args extends unknown[] = []
 > extends GeneratorExecutor<Yield, Next, Args> {
-  defer(callback: ICallback<Yield, Next, Args>): void {
-    this.callbacks.push(callback)
+  protected iterate(callbacks: Array<ICallback<Yield, Next, Args>>) {
+    return callbacks
   }
 }

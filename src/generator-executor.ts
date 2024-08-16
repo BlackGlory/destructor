@@ -1,4 +1,3 @@
-import { pass } from '@blackglory/prelude'
 import { goGenerator } from '@blackglory/go'
 
 export type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
@@ -6,12 +5,14 @@ export type ICallback<Yield, Next, Args extends unknown[]> = (...args: Args) =>
 | Generator<Yield, void, Next>
 
 export abstract class GeneratorExecutor<Yield, Next, Args extends unknown[]> {
-  protected callbacks: Array<ICallback<Yield, Next, Args>> = []
-
-  abstract defer(callback: ICallback<Yield, Next, Args>): void
+  private callbacks: Array<ICallback<Yield, Next, Args>> = []
 
   get size(): number {
     return this.callbacks.length
+  }
+
+  defer(callback: ICallback<Yield, Next, Args>): void {
+    this.callbacks.push(callback)
   }
 
   remove(callback: ICallback<Yield, Next, Args>): void {
@@ -22,7 +23,7 @@ export abstract class GeneratorExecutor<Yield, Next, Args extends unknown[]> {
     const callbacks = this.callbacks
     this.callbacks = []
 
-    for (const callback of callbacks) {
+    for (const callback of this.iterate(callbacks)) {
       yield* goGenerator(() => callback(...args))
     }
   }
@@ -31,12 +32,16 @@ export abstract class GeneratorExecutor<Yield, Next, Args extends unknown[]> {
     const callbacks = this.callbacks
     this.callbacks = []
 
-    for (const callback of callbacks) {
+    for (const callback of this.iterate(callbacks)) {
       try {
         yield* goGenerator(() => callback(...args))
       } catch {
-        pass()
+        // pass
       }
     }
   }
+
+  protected abstract iterate(
+    callbacks: Array<ICallback<Yield, Next, Args>>
+  ): Iterable<ICallback<Yield, Next, Args>>
 }
